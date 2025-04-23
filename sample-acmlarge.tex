@@ -44,7 +44,7 @@
 %% for your publication.
 %%
 %%
-\documentclass[acmlarge]{acmart}
+\documentclass[acmlarge, review, manuscript, screen]{acmart}
 %%
 %% \BibTeX command to typeset BibTeX logo in the docs
 \AtBeginDocument{%
@@ -56,10 +56,10 @@
 %% values in them; it is your responsibility as an author to replace
 %% the commands and values with those provided to you when you
 %% complete the rights form.
-\setcopyright{acmlicensed}
-\copyrightyear{2018}
-\acmYear{2018}
-\acmDOI{XXXXXXX.XXXXXXX}
+% \setcopyright{acmlicensed}
+% \copyrightyear{2018}
+% \acmYear{2018}
+% \acmDOI{XXXXXXX.XXXXXXX}
 
 %%
 %% These commands are for a JOURNAL article.
@@ -148,12 +148,7 @@
 %% The abstract is a short summary of the work to be presented in the
 %% article.
 \begin{abstract}
-  A clear and well-documented \LaTeX\ document is presented as an
-  article formatted for publication by ACM in a conference proceedings
-  or journal publication. Based on the ``acmart'' document class, this
-  article presents and explains many of the common variations, as well
-  as many of the formatting elements an author may use in the
-  preparation of the documentation of their work.
+  A series of literature reviews on other experimentation platforms and how their features can contribute to dex.
 \end{abstract}
 
 %%
@@ -185,20 +180,10 @@
 </ccs2012>
 \end{CCSXML}
 
-\ccsdesc[500]{Do Not Use This Code~Generate the Correct Terms for Your Paper}
-\ccsdesc[300]{Do Not Use This Code~Generate the Correct Terms for Your Paper}
-\ccsdesc{Do Not Use This Code~Generate the Correct Terms for Your Paper}
-\ccsdesc[100]{Do Not Use This Code~Generate the Correct Terms for Your Paper}
 
 %%
 %% Keywords. The author(s) should pick words that accurately describe
 %% the work being presented. Separate the keywords with commas.
-\keywords{Do, Not, Us, This, Code, Put, the, Correct, Terms, for,
-  Your, Paper}
-
-\received{20 February 2007}
-\received[revised]{12 March 2009}
-\received[accepted]{5 June 2009}
 
 %%
 %% This command processes the author and affiliation and title
@@ -206,104 +191,73 @@
 \maketitle
 
 \section{Linkedin}
-T-REX Experimentation Platform
-\begin{itemize}
-    \item T-REX - LinkedIn's Targeting, Ramping, and Experimentation platform.
-    \item Supports up to 41,000 A/B tests at the same time for 700M+ members.
-    \item Started small but evolved over a decade due to:
-    \begin{itemize}
-        \item Company growth
-        \item More available data
-        \item Shift towards experimentation in development
-    \end{itemize}
-\end{itemize}
-Challenges
-\begin{itemize}
-    \item Users were divided into 1,000 buckets based on their ID
-    \item Issues:
-    \begin{itemize}
-        \item Poor randomization = unreliable results.
-        \item No central database for test management → manual bucket allocation via emails.
-        \item Test definitions scattered in code → hard to debug.
-        \item Deployment took hours (had to modify and push configs).
-        \item Reports were manually created in spreadsheets or R - time-consuming \& error-prone.
-    \end{itemize}
-\end{itemize}
-New System 
-\begin{itemize}
-    \item Needed a scalable solution for:
-    \begin{itemize}
-        \item More employees using A/B testing.
-        \item More tests running at the same time.
-        \item Growing user base.
-    \end{itemize}
-    \item Key Redesign Concepts:
-    \begin{itemize}
-        \item T-REX "Test" = Represents a hypothesis or feature.
-        \item T-REX "Experiment" = A stage in testing (e.g., rollout at 5\%, then 25\%, 50\%, etc.).
-    \end{itemize}
-    \item Centralized UI for test management \& debugging.
-    \item Deployment reduced to under 5 minutes (faster rollouts).
-    \item Targeting users was built-in (no need to modify code for each new test).
-    \item Lix DSL = LinkedIn's domain-specific language for defining experiments.
-    \item Caching System to improve performance:
-    \begin{itemize}
-        \item Lix client tries to evaluate tests from memory (~98-99\% success).
-        \item If missing, fetches from backend (~93\% success).
-        \item Final fallback = LinkedIn's key-value store Venice.
-    \end{itemize}
-    \item Less than 0.2\% of requests reach storage → fast processing.
-    \item Experimentation engine sped up 20x.
-    \item Better statistical methods and UI for analysis.
-    \item Further improvements in offline A/B data pipelines.
-\end{itemize}
+LinkedIn’s T-REX platform—short for Targeting, Ramping, and Experimentation—serves as the backbone of its A/B testing infrastructure, supporting up to 41,000 concurrent experiments across a user base of over 700 million members. Originally a modest system, T-REX evolved significantly over the past decade, driven by rapid company growth, increasing volumes of available data, and a cultural shift toward data-driven experimentation in product development.
 
-\section{Netflix}
-\begin{itemize}
-  \item Redesigned to be Science Centric
-  \item Scalable, performant, cost efficient, trustworthy, usable, extensible
-  \item Python, R, C++ as standard languages of the platform, because v familiar to data scientists and has massive collection of libraries
-  \item Can run prod code in local environment
-  \item New statistical methods have been added to platform since it was reimagined (quantile bootstrapping, regression)
-  \item Engineers have more time to focus on platform itself, and work on improving it, good for scalability
-  \item Want to be generic and extensible
-  \item Twitter supports 3 types of metrics - built in metrics tracked for all experiments, event-based metrics, metrics that are owned and generated by the engineers
-  \item Microsoft ExP Platform: trustworthiness and scalability emphasized
-  \begin{itemize}
-    \item 4 main components: experimentation portal, experiment execution service, log processing service, analysis service
-    \item Can also deep dive post experiment for understanding changes in metrics
-  \end{itemize}
-  \item Research method: collected data from important meetings, grouped possible design changes, staged the changes in a way that would make the foundations strong
-  \begin{itemize}
-    \item Categories: requirements, architecture changes, software libraries, performance improvements, statistical methods, causal inference modeling
-  \end{itemize}
-  \item Software architecture: 
-  \begin{itemize}
-    \item 3 main phases
-    \begin{itemize}
-      \item Data collection: metrics repo in python, generated sql, take data from AB test logs
-      \item Statistical Analysis: causal models
-      \item Visualization: XP Viz
-      \item From here, XP Platform API delivers these visuals to the frontend, Ablaze. Also can got o Jupyter Notebook
-    \end{itemize}
-    \item Metrics Repo: centralization of metrics in unified way - better than everyone having their own pipelines
-    \begin{itemize}
-      \item Instead of the usual ETL pipeline, metric computation goes into dynamically generated SQL that runs on Spark - very fast execution, easy to change data
-    \end{itemize}
-    \item Causal Models: python library that has implementations of causal effects models. Easy to integrate with other stats libraries in R and Python
-    \item XP Viz - library that makes it very quicksand easy to translate from stats output to visualization - can reuse visualizations in other contexts. 
-    \begin{itemize}
-      \item Has really good support for Jupyter Notebooks
-    \end{itemize}
-    \item XP Platform API: a REST API which stores results
-    \item OpenFaaS: serverless computing platform that Netflix runs its jobs on. Scalable for larger loads
-  \end{itemize}
-  \item Impact: 
-  \begin{itemize}
-    \item Many more metrics contributions
-    \item Since dev of causal models, Netflix can take advantage of OLS, which increased statistical power by a lot, as well as quantile bootstrapping, segment discovery, quantile regression, time series models.
-  \end{itemize}
-\end{itemize}
+The original experimentation system faced a number of serious limitations. Users were divided into 1,000 buckets based on user IDs, but this led to poor randomization and unreliable results. There was no centralized system for managing experiments, so test buckets were manually assigned through email, and test definitions were embedded directly in source code, making debugging tedious. Experiment deployment required time-consuming config updates, and results were manually compiled in spreadsheets or R, introducing inefficiencies and human error.
+
+To meet the growing demands of more users and more simultaneous experiments, LinkedIn redesigned the system for scalability and usability. In the new model, a “T-REX Test” represents a hypothesis or feature under evaluation, while a “T-REX Experiment” refers to a specific stage in its rollout (e.g., 5\%, 25\%, 50\%). A centralized UI was introduced for managing and debugging tests, cutting deployment time to under five minutes and eliminating the need to change code for every new experiment. A key innovation was the Lix DSL—a domain-specific language that standardizes how experiments are defined.
+
+The redesign also focused heavily on performance. A multi-tier caching system was introduced: the Lix client attempts to evaluate experiments from memory (with a ~98–99\% success rate), then falls back to a backend (~93\% success), and finally to Venice, LinkedIn’s key-value store. As a result, fewer than 0.2\% of requests ever hit persistent storage, greatly accelerating processing. The new experimentation engine is now 20 times faster and features better statistical methods and improved UI for data analysis. Additionally, LinkedIn has continued to refine its offline A/B testing pipelines, contributing to more accurate and scalable experimentation at every stage of development.
+
+\section{Netflix} 
+% Reference the authors, 
+Netflix has redesigned its experimentation platform \cite{Diamantopoulos2019EngineeringFA} to be more science-centric, emphasizing scalability, performance, cost-efficiency, trustworthiness, usability, and extensibility. The platform standardizes on Python, R, and C++, which are languages familiar to data scientists and supported by extensive libraries—allowing for seamless development and execution of production-grade code in local environments. Since its reimagination, the platform has incorporated a wide range of advanced statistical methods, including quantile bootstrapping and regression models. This redesign enables engineers to devote more attention to improving the platform itself, contributing to long-term scalability and innovation.
+
+Inspired by systems like Twitter's and Microsoft's ExP platform, Netflix sought to support a broad spectrum of metrics: built-in metrics tracked across all experiments, event-based metrics, and engineer-generated custom metrics. The Microsoft ExP framework in particular influenced Netflix’s focus on trustworthiness and scalability, especially through its four main components: the experimentation portal, execution service, log processing service, and analysis service. These components provide a foundation for deeper post-experiment analysis and metric interpretation.
+
+To guide its overhaul, Netflix employed a rigorous research method that involved aggregating data from key meetings, identifying and categorizing potential design changes, and strategically staging these changes to reinforce architectural soundness. The revisions spanned several categories, including requirements gathering, software architecture updates, performance improvements, statistical method integration, and causal inference modeling.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\linewidth]{netflix_architecture.png}
+    \caption{Caption}
+    \label{fig:enter-label}
+\end{figure}
+
+Architecturally, the new experimentation pipeline consists of three main phases: data collection, statistical analysis, and visualization. In the data collection phase, Netflix uses a centralized metrics repository developed in Python. Instead of conventional ETL pipelines, the system dynamically generates SQL that runs on Spark, allowing for fast execution and adaptable data processing. The statistical analysis phase leverages a causal models library implemented in Python, offering smooth integration with other statistical tools in R and Python. The visualization phase is powered by XP Viz, a library designed to translate statistical outputs into shareable visualizations, particularly well-suited for use in Jupyter Notebooks. The XP Platform API, a RESTful interface, stores experiment results and serves them to Ablaze (the frontend visualization tool) or directly to notebooks. To handle computational demand, Netflix utilizes OpenFaaS, a serverless computing framework that ensures the platform remains responsive and scalable under heavy workloads. Below is a graphic from Netflix that demonstrates how these components work together.
+
+The impact of these architectural and methodological improvements has been significant. There has been a notable increase in metric contributions from across the company, and the integration of causal models has empowered Netflix to leverage Ordinary Least Squares (OLS) techniques, boosting statistical power. Additional capabilities such as segment discovery, quantile regression, and time series modeling have further expanded the platform’s analytical depth, allowing teams to draw more robust insights from experiments.
+
+\section{Microsoft Flywheel}
+Microsoft’s Experimentation Platform (ExP) team introduced the A/B Testing Flywheel as a practical framework for building and sustaining a strong experimentation culture within a company. The core idea is that scaling A/B testing takes time—it happens in stages, not all at once. The Flywheel outlines five key steps that reinforce each other: (1) running more A/B tests to support better decision-making, (2) measuring the value those tests bring, (3) increasing interest across the organization, (4) investing in infrastructure and data quality, and (5) lowering the effort and cost it takes to run experiments. With each full turn of the Flywheel, organizations build momentum and make experimentation a more natural part of how decisions get made.
+
+\begin{figure}[ht]
+    \centering
+     \includegraphics[width=0.5\linewidth]{microsoft_flywheel.png}
+    \caption{Caption}
+    \label{fig:enter-label}
+\end{figure}
+
+The first turn of the Flywheel is the hardest but most important. It starts with choosing experiments that are high-value, easy to measure, and simple to execute. Ideally, these first tests also produce results that are unexpected or challenge assumptions—what the authors call “counterintuitive” findings—which can spark curiosity and attention across the company. Alongside this, it’s essential to invest in reliable infrastructure early on, like automated data quality checks, A/A tests to ensure random assignment works, and shared tools to help teams get started quickly and confidently.
+
+As the program matures, sharing insights becomes just as important as running tests. Regular newsletters, team-wide reviews, or presentations of standout experiments help spread knowledge and encourage more teams to participate. The platform itself should keep evolving—making it easier to define experiments, track metrics, and interpret results, especially for people who don’t have deep statistics backgrounds. Over time, it also becomes important to develop strong, well-defined metrics (like Overall Evaluation Criteria) that link test outcomes to business and customer value, and to add diagnostic metrics that help explain why a test succeeded or failed.
+
+%what types of experiments are they supporting
+%architecture, how its designed, how it works, who interacts w it
+
+%microsoft exp has blog posts
+%infrastructural experiemnts - closest to what we'll be doing
+
+%key words: 
+% keep an eye out for variance reduction techniques, spillover effects, interference, confounding factors
+
+\section{Fabric Paper}
+The FABRIC Measurement Framework (MF) provides a strong architectural blueprint for building a flexible and scalable measurement system within an experimental testbed. Its core goal is to support both infrastructure-level monitoring and experiment-specific instrumentation without interfering with the actual experiments. It works closely with the FABRIC Control Framework (CF), which handles resource provisioning, while MF focuses on enabling, managing, and analyzing measurement data.
+
+At the heart of the framework is the concept of Measurement Points (MPs)—locations where data is collected. These are divided into two categories: provisionable resources (like VMs attached to switch mirror ports for packet capture), and accessible metrics already exposed by running services (such as SNMP data or OS-level stats). MF includes a dedicated Instrumentation and Control Service that configures and deploys these measurement points, equipping them with tools like Prometheus exporters or ELK Beats as needed. This separation of concerns allows users to focus on experiment logic while MF handles the complexity of measurement setup.
+
+
+One of MF’s most valuable features is its ability to provide precise, synchronized timestamps. Each FABRIC rack includes a GPS-disciplined clock that pushes accurate timing across nodes using the Precision Time Protocol (PTP). These clocks support sub-microsecond synchronization, which is crucial for accurately correlating events across a distributed environment. To make this functionality available inside virtual machines, MF uses the ptp_kvm kernel module to expose the host’s synchronized clock to the guest OS, and then synchronizes NIC clocks using phc2sys. This setup allows even VMs with passed-through hardware to generate highly accurate timestamps.
+
+The framework also isolates measurement traffic from experiment data by introducing a dedicated Measurement Bus. This is implemented using different mechanisms depending on the type of data: Apache Kafka for logs and events, and Prometheus-sidecar pipelines for numeric metrics. When necessary, MF can provision dedicated Quality-of-Service (QoS) channels across the network to carry measurement traffic without impacting the experiment’s performance. This effectively creates a parallel measurement plane alongside the experiment’s data plane.
+
+In terms of data storage and analysis, MF supports both local and centralized processing pipelines. Prometheus handles time-series metric data, which is aggregated using Thanos and visualized via Grafana. Logs and event data follow a Kafka → Logstash → Elasticsearch → Kibana (ELK) pipeline, offering advanced filtering and search capabilities. These pipelines can be deployed within FABRIC infrastructure or inside a user’s experiment slice, enabling users to apply the same toolchains to infrastructure and application-level data.
+Another smart design choice is the way MF extends the CF information model. Measurement-related metadata—such as the presence of a GPS-synced clock or links to monitoring dashboards—are added as tags to existing resource objects. This allows MF to describe and manage measurement configurations without requiring structural changes to the CF’s resource model.
+
+Security is built into the framework through role-based access controls and federated login (via CI-Logon and CoManage). All communications between components are encrypted using TLS and SASL, and access is restricted through ACLs to protect against external threats.
+
+Users interact with MF through both web-based dashboards and APIs. Grafana and Kibana offer intuitive interfaces for exploring metrics and logs, while the API allows programmatic control over measurement workflows—such as enabling or disabling collection points, posting custom events, or querying stored data. This combination supports both interactive analysis and automated, large-scale experimentation.
+For anyone designing their own experimental platform, FABRIC’s Measurement Framework is a great reference. It demonstrates how to decouple measurement from core experiment execution, integrate precise timing infrastructure, provide flexible and reusable data pipelines, and offer secure, user-friendly interfaces. The system is well-structured and pragmatic, making it a strong foundation for any scalable, research-grade testbed.
 
 
 
@@ -317,39 +271,11 @@ New System
 \bibliography{sample-base}
 
 
+
+
 %%
 %% If your work has an appendix, this is the place to put it.
 \appendix
-
-\section{Research Methods}
-Testing the fork
-\subsection{Part One}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-malesuada, quam in pulvinar varius, metus nunc fermentum urna, id
-sollicitudin purus odio sit amet enim. Aliquam ullamcorper eu ipsum
-vel mollis. Curabitur quis dictum nisl. Phasellus vel semper risus, et
-lacinia dolor. Integer ultricies commodo sem nec semper.
-
-\subsection{Part Two}
-
-Etiam commodo feugiat nisl pulvinar pellentesque. Etiam auctor sodales
-ligula, non varius nibh pulvinar semper. Suspendisse nec lectus non
-ipsum convallis congue hendrerit vitae sapien. Donec at laoreet
-eros. Vivamus non purus placerat, scelerisque diam eu, cursus
-ante. Etiam aliquam tortor auctor efficitur mattis.
-
-\section{Online Resources}
-
-Nam id fermentum dui. Suspendisse sagittis tortor a nulla mollis, in
-pulvinar ex pretium. Sed interdum orci quis metus euismod, et sagittis
-enim maximus. Vestibulum gravida massa ut felis suscipit
-congue. Quisque mattis elit a risus ultrices commodo venenatis eget
-dui. Etiam sagittis eleifend elementum.
-
-Nam interdum magna at lectus dignissim, ac dignissim lorem
-rhoncus. Maecenas eu arcu ac neque placerat aliquam. Nunc pulvinar
-massa et mattis lacinia.
 
 \end{document}
 \endinput
