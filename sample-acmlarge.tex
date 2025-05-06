@@ -218,6 +218,30 @@ Architecturally, the new experimentation pipeline consists of three main phases:
 
 The impact of these architectural and methodological improvements has been significant. There has been a notable increase in metric contributions from across the company, and the integration of causal models has empowered Netflix to leverage Ordinary Least Squares (OLS) techniques, boosting statistical power. Additional capabilities such as segment discovery, quantile regression, and time series modeling have further expanded the platform’s analytical depth, allowing teams to draw more robust insights from experiments.
 
+\section{Microsoft ExP}
+\cite{gupta2018the}
+Microsoft’s ExP (Experimentation Platform) is designed to support large-scale, trustworthy A/B testing across a wide range of products, such as Bing, Microsoft Word, Windows OS, Xbox, and more. A key challenge the platform addresses is the need to support experimentation for highly diverse products with different architectures and technical constraints. It also has to function alongside decades-old codebases while maintaining compatibility and stability.
+
+The two guiding values of ExP are trustworthiness and scalability. Trustworthiness ensures that results from experiments are reliable, statistically valid, and free from bias or interference. Scalability allows any product team, regardless of the platform they work on, to run trustworthy experiments with low overhead and to scale up their use of the platform as needed.
+
+The experimentation portal is the main interface between experiment owners and the platform. It enables users to easily configure, launch, monitor, and analyze experiments. It includes tools for experiment management, metric definition, and result exploration. Within experiment management, users define the experiment audience, specify success criteria (called overall evaluation criteria or OEC), determine the size and duration of the experiment, and select from templates that encapsulate best practices like randomization techniques and ramp-up schedules. Experiment templates help minimize variance and ensure consistent implementation across teams. The system also addresses potential issues of variant interaction by grouping variants into isolation groups—mechanisms that ensure no user is accidentally exposed to conflicting variants from concurrent experiments. Owners must also configure how each variant behaves during the experiment, which can involve toggling features on or off using client-side configurations or adjusting server-side behavior.
+
+Metrics are defined using a language developed at Microsoft called Metric Definition Language (MDL), which abstracts metric logic away from any specific backend system. This allows consistency across teams and products, since the same definition can later be compiled into SQL or other executable formats depending on the data processing stack. Users can test and validate metrics directly through the portal, ensuring accurate and consistent reporting.
+
+For analyzing experiment results, the system generates an experiment scorecard. This is essentially a table that displays the performance of defined metrics across different experiment variants. The scorecard includes observed metric values for each variant, the differences between them, and the statistical significance of those differences. The portal also supports deeper visualizations, segmentation by user groups, time breakdowns, and custom analyses, helping teams interpret subtle or unexpected results. It also houses a searchable repository of past experiments to encourage cross-team learning and reduce duplicated efforts.
+
+Experiment execution is handled by a service that assigns users to variants and delivers those assignments to the relevant application layer. Depending on the product, assignments can be delivered via direct service calls, through request annotations at edge nodes, or using local libraries. This flexibility allows the system to support both client-side and server-side experimentation.
+
+Logs generated during experiments are collected and processed by a log processing service, which handles everything from real-time alerts to large-scale batch computations. Logs are “cooked,” or enriched and merged, so they can be easily consumed by analysis systems. Care is taken to ensure that no data is lost, including late-arriving client logs or offline activity. The system also actively monitors data quality to detect inconsistencies or telemetry failures that could distort results.
+
+Throughout the entire experiment lifecycle, the analysis service plays a key role. Before an experiment begins, it assists in determining sample sizes, choosing a randomization seed, and evaluating potential bias. During the experiment, it monitors for harm to users and issues related to data integrity. Once the experiment concludes, it helps interpret the results, identifies heterogeneous treatment effects, and generates alerts or suggestions to guide decision-making. These capabilities are especially critical at Microsoft’s scale, where thousands of experiments are conducted annually and even small metric changes can have massive revenue implications.
+
+In summary, ExP provides a comprehensive, end-to-end platform for experimentation that supports Microsoft’s diverse product ecosystem. It enables teams to quickly turn ideas into experiments and generate meaningful, trustworthy insights that help improve product quality and user experience.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\linewidth]{EXPERIMENTATION PORTAL.png}
+\end{figure}
+
 \section{Microsoft Flywheel}
 Microsoft’s Experimentation Platform (ExP) team introduced the A/B Testing Flywheel as a practical framework for building and sustaining a strong experimentation culture within a company. The core idea is that scaling A/B testing takes time—it happens in stages, not all at once. The Flywheel outlines five key steps that reinforce each other: (1) running more A/B tests to support better decision-making, (2) measuring the value those tests bring, (3) increasing interest across the organization, (4) investing in infrastructure and data quality, and (5) lowering the effort and cost it takes to run experiments. With each full turn of the Flywheel, organizations build momentum and make experimentation a more natural part of how decisions get made.
 
@@ -242,6 +266,14 @@ As the program matures, sharing insights becomes just as important as running te
 % keep an eye out for variance reduction techniques, spillover effects, interference, confounding factors
 
 \section{Fabric Paper}
+
+% what exactly is a resource in here??
+% Resources represent a variety of things in the Fabric MF context. These include pieces of the FABRIC infrastructure, like compute, storage, PDUs, other fabric services, as well as virutal resources like VMs and their guest OS.
+% more detail about the measurement instrumentation and control service - what exactly it is/does - how does it interact with the other things
+% the Measurement Instrumentation and Control Service is implemented as a service that leverages the Control Framework and is responsible for embedding, provisioning, configuring, enabling, and controlling measurement resources on behalf of experimenters (or system operators).
+% what's the abstraction for a measurement point? is it an api endpoint?
+% - PMR or AMR resource 
+% make use of subsections
 The FABRIC Measurement Framework (MF) provides a strong architectural blueprint for building a flexible and scalable measurement system within an experimental testbed. Its core goal is to support both infrastructure-level monitoring and experiment-specific instrumentation without interfering with the actual experiments. It works closely with the FABRIC Control Framework (CF), which handles resource provisioning, while MF focuses on enabling, managing, and analyzing measurement data.
 
 There are 6 components that make up the MF. First is the Measurement Instrumentation and Control Service, which allows a user to take measurements and can enable and disable these experiments. Next is Measurement Points (MPs) that collect data about an experiment that is running, such as state information and events. Next is Timestamping Services, which MPs call on to accurately timestamp various events. The fourth component, Measurement Data Storage Services, stores the data that was collected, and can do so either locally on a rack, somewhere within the project, or globally. Next there is the Measurement Data Filtering/Processing Services, which filters and transforms the data into easy to view formats that can later be visualized and analyzed. The Experimenter Measurement Tools allow experimenters to perform various functions on their measurement data, such as analyzing, or searching through it. Finally, the Measurement Bus allows users to transport measurement data between various other components of the MF, and is implemented in various different ways. Below is a visualization of this architecture.
