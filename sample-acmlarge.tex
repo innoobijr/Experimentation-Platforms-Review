@@ -239,8 +239,9 @@ Throughout the entire experiment lifecycle, the analysis service plays a key rol
 In summary, ExP provides a comprehensive, end-to-end platform for experimentation that supports Microsoft’s diverse product ecosystem. It enables teams to quickly turn ideas into experiments and generate meaningful, trustworthy insights that help improve product quality and user experience.
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.5\linewidth]{EXPERIMENTATION PORTAL.png}
+    \includegraphics[width=1\linewidth]{EXPERIMENTATION PORTAL.png}
 \end{figure}
+
 
 \section{Microsoft Flywheel}
 Microsoft’s Experimentation Platform (ExP) team introduced the A/B Testing Flywheel as a practical framework for building and sustaining a strong experimentation culture within a company. The core idea is that scaling A/B testing takes time—it happens in stages, not all at once. The Flywheel outlines five key steps that reinforce each other: (1) running more A/B tests to support better decision-making, (2) measuring the value those tests bring, (3) increasing interest across the organization, (4) investing in infrastructure and data quality, and (5) lowering the effort and cost it takes to run experiments. With each full turn of the Flywheel, organizations build momentum and make experimentation a more natural part of how decisions get made.
@@ -267,16 +268,10 @@ As the program matures, sharing insights becomes just as important as running te
 
 \section{Fabric Paper}
 
-% what exactly is a resource in here??
-% Resources represent a variety of things in the Fabric MF context. These include pieces of the FABRIC infrastructure, like compute, storage, PDUs, other fabric services, as well as virutal resources like VMs and their guest OS.
-% more detail about the measurement instrumentation and control service - what exactly it is/does - how does it interact with the other things
-% the Measurement Instrumentation and Control Service is implemented as a service that leverages the Control Framework and is responsible for embedding, provisioning, configuring, enabling, and controlling measurement resources on behalf of experimenters (or system operators).
-% what's the abstraction for a measurement point? is it an api endpoint?
-% - PMR or AMR resource 
-% make use of subsections
+
 The FABRIC Measurement Framework (MF) provides a strong architectural blueprint for building a flexible and scalable measurement system within an experimental testbed. Its core goal is to support both infrastructure-level monitoring and experiment-specific instrumentation without interfering with the actual experiments. It works closely with the FABRIC Control Framework (CF), which handles resource provisioning, while MF focuses on enabling, managing, and analyzing measurement data.
 
-There are 6 components that make up the MF. First is the Measurement Instrumentation and Control Service, which allows a user to take measurements and can enable and disable these experiments. Next is Measurement Points (MPs) that collect data about an experiment that is running, such as state information and events. Next is Timestamping Services, which MPs call on to accurately timestamp various events. The fourth component, Measurement Data Storage Services, stores the data that was collected, and can do so either locally on a rack, somewhere within the project, or globally. Next there is the Measurement Data Filtering/Processing Services, which filters and transforms the data into easy to view formats that can later be visualized and analyzed. The Experimenter Measurement Tools allow experimenters to perform various functions on their measurement data, such as analyzing, or searching through it. Finally, the Measurement Bus allows users to transport measurement data between various other components of the MF, and is implemented in various different ways. Below is a visualization of this architecture.
+There are 6 components that make up the MF. First is the Measurement Instrumentation and Control Service, which allows a user to take measurements and can enable and disable these experiments. Next is Measurement Points (MPs), which is any component or resource on the infrastructure that collects data about an experiment that is running, such as state information and events. Measurement points can either be Provisional Measurement Resources (PMRs), which are created specifically to run the measurement, or Accessible Meausrement Resources (AMRs), which are existing on the infrastructure already. Next is Timestamping Services, which MPs call on to accurately timestamp various events. The fourth component, Measurement Data Storage Services, stores the data that was collected, and can do so either locally on a rack, somewhere within the project, or globally. Next there is the Measurement Data Filtering/Processing Services, which filters and transforms the data into easy to view formats that can later be visualized and analyzed. The Experimenter Measurement Tools allow experimenters to perform various functions on their measurement data, such as analyzing, or searching through it. Finally, the Measurement Bus allows users to transport measurement data between various other components of the MF, and is implemented in various different ways. Below is a visualization of this architecture.
 
 \begin{figure}[ht]
     \centering
@@ -303,7 +298,15 @@ FABRIC’s MF is a great reference when thinking about design choices for DEX. I
 
 
 
+\section{Patterns Across All Platforms}
 
+All 4 of the platforms reviewed so far share some basic patterns that inspiration can be drawn from when designing DEX Catalog. The three experimentation platforms reviewed—LinkedIn, Microsoft, Netflix—support A/B testing as a core capability, while Fabric's Measurement Framework is more involved with taking infrastructure measurements. Beyond A/B testing, the platforms, especiallly Microsoft and Netflix, support more complex experiments and statistical analysis, such as causal inference tools, segment discovery, and regression models to detect subtle treatment effects.
+
+Each platform includes a centralized UI or control system to help users define, manage, and deploy experiments. For LinkedIn and Microsoft, this comes in the form of dedicated front-end portals, while FABRIC uses its Measurement Instrumentation and Control Service to handle measurement and experiment coordination, and also has a GUI. Regardless of the exact setup, these tools are designed to make experimentation smoother and more accessible across teams.
+
+A common thread across all platforms is their focus on scalability, performance, and efficiency. Each system is built to handle large volumes of experiments and users, while maintaining low latency and high reliability. Some platforms have developed custom domain-specific languages to standardize and streamline experimentation. For example, LinkedIn introduced LiX DSL to define experiments in a consistent, reusable way, and Microsoft created MDL (Metric Definition Language) to describe metric logic independently of the language the backend is written in. These specific languages allow for reusable experiment templates, and standardized metric definitions.
+
+Many of these platforms also include strong visualization components—either through custom dashboards or by pushing experiment data into tools like Jupyter Notebooks—so that teams can easily interpret and share their results. Fabric's MF uses Grafana and Kibana to do these visualizations, and Netflix uses a library called XP Viz as well as Ablaze. The platforms also support statistical analysis of their results, with Fabric using ES and Querier, Netflix using causal models written in Python, and Microsoft using their experiment scorecard.
 
 \newpage
 
