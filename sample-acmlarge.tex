@@ -191,6 +191,7 @@
 \maketitle
 
 \section{Linkedin}
+\cite{linkedin}
 LinkedIn’s T-REX platform—short for Targeting, Ramping, and Experimentation—serves as the backbone of its A/B testing infrastructure, supporting up to 41,000 concurrent experiments across a user base of over 700 million members. Originally a modest system, T-REX evolved significantly over the past decade, driven by rapid company growth, increasing volumes of available data, and a cultural shift toward data-driven experimentation in product development.
 
 The original experimentation system faced a number of serious limitations. Users were divided into 1,000 buckets based on user IDs, but this led to poor randomization and unreliable results. There was no centralized system for managing experiments, so test buckets were manually assigned through email, and test definitions were embedded directly in source code, making debugging tedious. Experiment deployment required time-consuming config updates, and results were manually compiled in spreadsheets or R, introducing inefficiencies and human error.
@@ -201,7 +202,7 @@ The redesign also focused heavily on performance. A multi-tier caching system wa
 
 \section{Netflix} 
 % Reference the authors, 
-Netflix has redesigned its experimentation platform \cite{Diamantopoulos2019EngineeringFA} to be more science-centric, emphasizing scalability, performance, cost-efficiency, trustworthiness, usability, and extensibility. The platform standardizes on Python, R, and C++, which are languages familiar to data scientists and supported by extensive libraries—allowing for seamless development and execution of production-grade code in local environments. Since its reimagination, the platform has incorporated a wide range of advanced statistical methods, including quantile bootstrapping and regression models. This redesign enables engineers to devote more attention to improving the platform itself, contributing to long-term scalability and innovation.
+Netflix has redesigned its experimentation platform \cite{netflix} to be more science-centric, emphasizing scalability, performance, cost-efficiency, trustworthiness, usability, and extensibility. The platform standardizes on Python, R, and C++, which are languages familiar to data scientists and supported by extensive libraries—allowing for seamless development and execution of production-grade code in local environments. Since its reimagination, the platform has incorporated a wide range of advanced statistical methods, including quantile bootstrapping and regression models. This redesign enables engineers to devote more attention to improving the platform itself, contributing to long-term scalability and innovation.
 
 Inspired by systems like Twitter's and Microsoft's ExP platform, Netflix sought to support a broad spectrum of metrics: built-in metrics tracked across all experiments, event-based metrics, and engineer-generated custom metrics. The Microsoft ExP framework in particular influenced Netflix’s focus on trustworthiness and scalability, especially through its four main components: the experimentation portal, execution service, log processing service, and analysis service. These components provide a foundation for deeper post-experiment analysis and metric interpretation.
 
@@ -219,7 +220,7 @@ Architecturally, the new experimentation pipeline consists of three main phases:
 The impact of these architectural and methodological improvements has been significant. There has been a notable increase in metric contributions from across the company, and the integration of causal models has empowered Netflix to leverage Ordinary Least Squares (OLS) techniques, boosting statistical power. Additional capabilities such as segment discovery, quantile regression, and time series modeling have further expanded the platform’s analytical depth, allowing teams to draw more robust insights from experiments.
 
 \section{Microsoft ExP}
-\cite{gupta2018the}
+\cite{microsoft}
 Microsoft’s ExP (Experimentation Platform) is designed to support large-scale, trustworthy A/B testing across a wide range of products, such as Bing, Microsoft Word, Windows OS, Xbox, and more. A key challenge the platform addresses is the need to support experimentation for highly diverse products with different architectures and technical constraints. It also has to function alongside decades-old codebases while maintaining compatibility and stability.
 
 The two guiding values of ExP are trustworthiness and scalability. Trustworthiness ensures that results from experiments are reliable, statistically valid, and free from bias or interference. Scalability allows any product team, regardless of the platform they work on, to run trustworthy experiments with low overhead and to scale up their use of the platform as needed.
@@ -298,7 +299,30 @@ FABRIC’s MF is a great reference when thinking about design choices for DEX. I
 
 
 
-\section{Patterns Across All Platforms}
+\section{Kernels for Robust and Usable Experimentation}
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{cccc}
+        \toprule
+         \textbf{Pattern} & \textbf{Description} & \textbf{Examples} &  \\
+         A/B Testing & Platform supports A/B Testing & Fabric, Microsoft, LinkedIn, Netflix & \\
+         Scalability & Platform is usable for large amount of users/experiments & Fabric, Microsoft, Linkedin, Netflix & \\
+         Centralized UI & User-friendly UI where experimenters can control and manage experiments& Fabric, Netflix \cite{netflix}, Microsoft \cite{microsoft}, Linkedin \cite{linkedin} & \\
+         Domain-specific Language & Organization developed a DSL specifically for platform & LinkedIn \cite{linkedin} Microsoft \cite{microsoft}& \\
+         Data Visualization & Experiment/Measurement results are visualized in meaningful ways & Fabric, Netflix \cite{netflix}& \\
+         Results Analysis & Platform supports statistical analysis of results, accessible from central UI & Fabric, Netflix \cite{netflix}, Microsoft \cite{microsoft}& \\
+         Security & Platform takes measures to ensure data is secure & Fabric, Microsoft, Linkedin& \\
+         Preventing Overlap & Platform ensures diff variant of same experiment not assigned to same user & Microsoft \cite{microsoft} & \\
+         Timestamping Service & Platform includes timestamping service to ensure ultra-accurate timings & Fabric & \\
+         
+         \midrule
+         &&& 
+         \bottomrule
+    \end{tabular}
+    \caption{Caption}
+    \label{tab:my_label}
+\end{table} \\
 
 All 4 of the platforms reviewed so far share some basic patterns that inspiration can be drawn from when designing DEX Catalog. The three experimentation platforms reviewed—LinkedIn, Microsoft, Netflix—support A/B testing as a core capability, while Fabric's Measurement Framework is more involved with taking infrastructure measurements. Beyond A/B testing, the platforms, especiallly Microsoft and Netflix, support more complex experiments and statistical analysis, such as causal inference tools, segment discovery, and regression models to detect subtle treatment effects.
 
